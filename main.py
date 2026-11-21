@@ -21,6 +21,11 @@ def main() -> int:
     if len(sys.argv) > 1:
         print("usage: main.py (takes no arguments)", file=sys.stderr)
         return 2
+    # Gate self-check: the competition requires 1-280 Unicode code points,
+    # UTF-8, and not only whitespace. Fail loudly rather than write a bad file.
+    if not 1 <= len(TEXT) <= 280 or not TEXT.strip():
+        print("entry text fails the 1-280 code point gate", file=sys.stderr)
+        return 1
     out_dir = os.environ.get("MAKEFUN_OUTPUT_DIR", "/output")
     os.makedirs(out_dir, exist_ok=True)
     path = os.path.join(out_dir, "entry.txt")
